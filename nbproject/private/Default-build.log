@@ -1,0 +1,6 @@
+gcc -g -DDEBUG -c fon.c
+#gcc -c fon.c
+gcc  -g  -c  client.c
+gcc -g  fon.o client.o -o client -lcurses   
+gcc  -g  -c  serveur.c
+gcc -g  fon.o serveur.o -o serveur -lcurses   
