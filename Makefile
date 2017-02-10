@@ -29,7 +29,7 @@ OPTIONS	+= -ltermcap  -lsocket -lnsl
 CFLAGS	+= -I..
 endif
 
-EXEC = ${OBJ1} client ${OBJ2} serveur
+EXEC = ${OBJ1} client ${OBJ2} serveur algo
 all: ${EXEC}
 
 
@@ -49,6 +49,9 @@ client : ${OBJ1}
 serveur : ${OBJ2}
 	gcc -g $(LFLAGS) ${OBJ2} -o serveur -lcurses   $(OPTIONS)
 
+# pour tests
+algo : algo_mastermind.c
+	gcc -g $(LFLAGS) algo_mastermind.c -o algo_mastermind $(OPTIONS)
 
 
 clean :
