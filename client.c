@@ -14,7 +14,7 @@
 
 
 #include <stdio.h>
-#include <curses.h> 		/* Primitives de gestion d'écran */
+#include <curses.h> 		/* Primitives de gestion d'ï¿½cran */
 #include <sys/signal.h>
 #include <sys/wait.h>
 #include<stdlib.h>
@@ -76,28 +76,32 @@ struct sockaddr_in *p_sockaddr_locale;
 struct sockaddr_in *p_sockaddr_distante;
 
 
-// création d'une socket,
-// la structure est crée et associée à un file descriptor
+// crï¿½ation d'une socket,
+// la structure est crï¿½e et associï¿½e ï¿½ un file descriptor
 // renvoi le file descriptor
 int socket = h_socket(AF_INET,SOCK_STREAM);
 if (socket < 0) {
-	printf("Echec création de socket");
+	printf("Echec crÃ©ation de socket");
 	} else {
-        printf("Socket créée avec succès. id= %d\n",socket);
+        printf("Socket crÃ©Ã©e avec succÃ¨s. id= %d\n",socket);
         }
 
 // Remplissage d'une structure sockaddr_in pour ip/port du serveur local
 // le system choisi le port
 // nom du pointeur: p_sockaddr_local
-adr_socket(0, serveur, SOCK_STREAM, &p_sockaddr_locale);
-h_bind(socket, p_sockaddr_locale);
+///adr_socket(0, serveur, SOCK_STREAM, &p_sockaddr_locale);
+///h_bind(socket, p_sockaddr_locale);
 // Remplissage d'une structure sockaddr_in pour ip/port du serveur distant
 // nom du pointeur: p_sockaddr_distant
-adr_socket(service, serveur, SOCK_STREAM, &p_sockaddr_distante);
-h_connect(socket, p_sockaddr_distante);
-sleep(200);
+///adr_socket(service, serveur, SOCK_STREAM, &p_sockaddr_distante);
+///h_connect(socket, p_sockaddr_distante);
+///sleep(200);
 //h_bind(socket, p_sockaddr_local);
 //
+
+
+// Code du jeu
+
 }
 /*****************************************************************************/
 

@@ -1,17 +1,17 @@
 /******************************************************************************/
-/*			Application: Masterming		              */
+/*			Application: Masterming                               */
 /******************************************************************************/
-/*									                  */
+/*									      */
 /*			 programme  SERVEUR 				      */
-/*									                  */
+/*									      */
 /******************************************************************************/
-/*							                          */
-/*		Auteurs :  ....						          */
-/*      Marguerite Edouard 			                  */
-/*      Chaillet Maxime                               */
-/*									                  */
-/*		Date :  Fevrier 2017					  	  */
-/*									                  */
+/*							                      */
+/*		Auteurs :  ....						      */
+/*      Marguerite Edouard 			                              */
+/*      Chaillet Maxime                                                       */
+/*									      */
+/*		Date :  Fevrier 2017                                          */
+/*									      */
 /******************************************************************************/
 
 #include<stdio.h>
@@ -45,7 +45,7 @@ int main(int argc,char *argv[])
 		  		  break;
  	case 2:
 		  service=argv[1];
-		  printf("Mise en écoute sur le port %s\n", service);
+		  printf("Mise en ï¿½coute sur le port %s\n", service);
             break;
 
    	default :
@@ -71,32 +71,34 @@ struct sockaddr_in *p_sockaddr_locale;
 struct sockaddr_in sockaddr_client;
 int socket_connecte;
 
-// création d'une socket,
-// la structure est crée et associée à un file descriptor
+// crï¿½ation d'une socket,
+// la structure est crï¿½e et associï¿½e ï¿½ un file descriptor
 // renvoi le file descriptor
-int socket = h_socket(AF_INET,SOCK_STREAM);
-if (socket < 0) {
-	printf("Echec création de socket");
-	} else {
-        printf("Socket créée avec succès. id= %d\n",socket);
-        }
+///int socket = h_socket(AF_INET,SOCK_STREAM);
+///if (socket < 0) {
+///	printf("Echec crï¿½ation de socket");
+///	} else {
+///        printf("Socket crï¿½ï¿½e avec succï¿½s. id= %d\n",socket);
+//        }
 
 // Remplissage d'une structure sockaddr_in pour ip/port du serveur local
-// port local définit par l'utilisateur
+// port local dï¿½finit par l'utilisateur
 // nom du pointeur: p_sockaddr_local
-adr_socket(service, NULL, SOCK_STREAM, &p_sockaddr_locale);
-h_bind(socket, p_sockaddr_locale);
+///adr_socket(service, NULL, SOCK_STREAM, &p_sockaddr_locale);
+///h_bind(socket, p_sockaddr_locale);
 // Remplissage d'une structure sockaddr_in pour ip/port du serveur distant
 // nom du pointeur: p_sockaddr_distant
 //char* client = "localhost";
 //adr_socket(0, 0, SOCK_STREAM, &p_sockaddr_client);
 //int res = getpeername(socket,p_sockaddr_client, 1);
 //mode passive sur id socket, taille file d'attente =5
-h_listen(socket, 5);
+///h_listen(socket, 5);
 
 //blocage en attente de connexion et accept des qu'un client fait une demande
-socket_connecte = h_accept(socket,&sockaddr_client);
-sleep(200);
+///socket_connecte = h_accept(socket,&sockaddr_client);
+///sleep(200);
+
+// code du jeu
 }
 
 /******************************************************************************/
