@@ -24,11 +24,11 @@ void affiche(int T[], unsigned int l) {
     printf("]\n");
 }
 
-/* Rempli les l premieres cases du tableau par un nombre aléatoire entre 0 et 7
- * parametre T: un tableau contenant le code à trouver.
- * parametre l: le nombre de couleurs à trouver
+/**
+ * Rempli les l premieres cases du tableau par un nombre aléatoire entre 0 et 7
+ * @param T: le tableau qui contiendra le code secret
+ * @param l: le nombre de boules dans le tableau
  */
-
 void genere(int T[], unsigned int l) {
     /* initialise les l premiers elements du tableau T */
 
@@ -71,6 +71,13 @@ int CouleurVersEntier(char *coul) {
     }
 }
 
+/**
+ * Recherche un entier dans un tableau et renvoie sa valeur
+ * @param T: le tableau
+ * @param l  
+ * @param x: la valeur recherchée
+ * @return 
+ */
 int recherche(int T[], unsigned int l, unsigned x) {
     /* Recherche de l'entier x dans le tableau T */
 
@@ -183,52 +190,77 @@ void proposition(int T[], unsigned int niv) {
     }
 }
 
-int main() {
+void rempliAZero(int tab[], int nbElt) {
+    int i;
+    for (i = 0; i < nbElt; i++) {
+        tab[i] = 0;
+    }
+}
 
+int estGagne(int tab[], int level){
+    int i = 0;
+    while (i < level && tab[i]==2) {
+        i++;
+    }
+    return i==level;
+}
+
+
+int main() {
     int level;
 
     // choix du niveau de jeu
     printf("Veuillez choisir le niveau de jeu (entre 1 et 8) : ");
     scanf("%d", &level);
 
-    // creation combinaison à trouver aléatoirement
-    int Tab_partie[level];
+    // creation aléatoire du code secret dans tableau TabPartie
+    int tabCode[level];
     srandom(time(NULL)); /* germe pour la suite pseudo-aleatoire */
-    genere(Tab_partie, level);
+    genere(tabCode, level);
 
-    printf("Rouge : 0, Jaune : 1, Vert : 2, Bleu : 3, Orange : 4, Blanc : 5, Violet : 6, Fushia : 7\n");
-
+    printf("0 = Rouge,  1 = Jaune, 2 = Vert, 3 = Bleu, 4 = Orange, 5 = Blanc, 6 = Violet, 7 = Fushia\n");
     printf("Code secret : ");
-    affiche(Tab_partie, level);
+    affiche(tabCode, level);
 
     // boucle de jeu
+    int boucle = 1;
+    int gagne =0;
+    int nbessai = 0;
+    int tabProposition[level];
+    while (boucle == 1) {
+        
+        // Rempli le tableau des indicateurs avec 0;
+        int tabIndic[level];
+        rempliAZero(tabIndic, level);
+        
+        // demander au joueur de faire une proposition
+        proposition(tabProposition, level);
+        printf("Proposition du joueur : ");
+        affiche(tabProposition, level);
 
-    int Tab_proposition[level];
+        // Rempli tabIndic en fonction de la proposition faite
+        Reponse(tabProposition, tabCode, tabIndic, level);
 
-    //int x =1;
-    //while (x==1) {
-
-    // demander au joueur de faire une proposition
-    proposition(Tab_proposition, level);
-    printf("Proposition du joueur : ");
-    affiche(Tab_proposition, level);
-    //}
-
-    int Indic[level];
-    int i;
-    for (i = 0; i < level; i++) {
-
-        Indic[i] = 0;
+        printf("Indicateurs : ");
+        affiche(tabIndic, level);
+        printf("2 = bonne place, 1 = existe mais mal place, 0 = n'existe pas\n");
+        
+        gagne = estGagne(tabIndic, level);
+        nbessai++;
+        if (gagne==1) {
+            boucle =0;
+            printf("Vous avez gagné en %d coups !\n", nbessai);
+        } else {
+            if (nbessai ==15) {
+                printf("Vous avez perdu !\n ");
+            } else {
+                printf("Il vous reste %d essais.\n", 15-nbessai);
+            }
+                
+        }
+        
     }
 
-    Reponse(Tab_proposition, Tab_partie, Indic, level);
-
-    printf("Indicateurs : ");
-    affiche(Indic, level);
-    printf("2 : bonne place, 1 : existe mais mal place, 0 : n'existe pas\n");
-
-
-
     return 0;
-
 }
+
