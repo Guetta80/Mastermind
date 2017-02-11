@@ -3,6 +3,9 @@
 #include <time.h>
 #include <string.h>
 
+const int NBTOTALESSAI = 15;
+
+
 enum {
     Rouge, Jaune, Vert, Bleu, Orange, Blanc, Violet, Fushia
 } couleur;
@@ -72,118 +75,87 @@ int CouleurVersEntier(char *coul) {
 }
 
 /**
- * Recherche un entier dans un tableau et renvoie sa valeur
- * @param T: le tableau
- * @param l  
- * @param x: la valeur recherchée
- * @return 
+ * Recherche un entier dans un tableau et renvoit sa position
+ * @param T: le tableau 
+ * @param l  : le nbre d'element du tableau
+ * @param x: l'entier recherché
+ * @return : position renvoyée; -1 si pas trouvée.
  */
 int recherche(int T[], unsigned int l, unsigned x) {
     /* Recherche de l'entier x dans le tableau T */
-
-    int existe;
-
+    int position = -1;
     unsigned int i;
-
     i = 0;
+
     while (i < l && T[i] != x) {
-        i = i + 1;
-    };
-
-    existe = 0;
-
-    if (i < l) {
-        existe = 1;
-    };
-
-    return existe;
-}
-
-int rechercheP(int T[], unsigned int l, unsigned x) {
-    /* Recherche de la position de l'entier x dans le tableau T */
-
-    unsigned int i;
-
-    int position = 0;
-
-    i = 0;
-    while (i < l && T[i] != x) {
-        i = i + 1;
+        i++;
     };
 
     if (i < l) {
         position = i;
     };
-
     return position;
 }
 
-/* compare la proposition avec la combinaison secrète et renvoie un tableau d'indicateurs */
-
-void Reponse(int T_prop[], int T_partie[], int T_indic[], int level) {
+/**
+ * compare la proposition avec le code secrète et renvoie un tableau d'indicateurs
+ * @param T_prop : tableau de proposition
+ * @param T_code : tableau du code secret
+ * @param T_indic : tableau des indicateur
+ * @param level : taille des tableaux
+ */
+void Reponse(int T_prop[], int T_code[], int T_indic[], int level) {
 
     int Temp_prop[level];
-    int Temp_partie[level];
-
+    int Temp_code[level];
     unsigned int i;
 
     /* les temporaires */
-
     for (i = 0; i < level; i++) {
-
-        Temp_partie[i] = T_partie[i];
+        Temp_code[i] = T_code[i];
         Temp_prop[i] = T_prop[i];
-
     }
 
     /* Analyse des jetons bien placés */
-
     for (i = 0; i < level; i++) {
-        if (Temp_prop[i] == Temp_partie[i]) {
+        if (Temp_prop[i] == Temp_code[i]) {
             T_indic[i] = 2;
             Temp_prop[i] = -1;
-            Temp_partie[i] = -1;
+            Temp_code[i] = -1;
         }
     }
 
     /* Analyse des jetons non présents */
-
     for (i = 0; i < level; i++) {
         if (Temp_prop[i] != -1) {
             /* Recherche */
-            int estPresent;
-
-            estPresent = recherche(Temp_partie, level, Temp_prop[i]);
-            if (estPresent == 0) {
+            int position;
+            position = recherche(Temp_code, level, Temp_prop[i]);
+            if (position == -1) {
                 Temp_prop[i] = -1;
             }
         }
     }
 
     /* Analyse des jetons mal placés */
-
     for (i = 0; i < level; i++) {
         if (Temp_prop[i] != -1) {
             /* Recherche */
-            int estPresent;
-
-            estPresent = recherche(Temp_partie, level, Temp_prop[i]);
-            if (estPresent == 1) {
+            int position;
+            position = recherche(Temp_code, level, Temp_prop[i]);
+            if (position != -1) {
                 T_indic[i] = 1;
-                Temp_partie[rechercheP(Temp_partie, level, Temp_prop[i])] = -1;
+                Temp_code[position] = -1;
             }
         }
     }
-
 }
 
 void proposition(int T[], unsigned int niv) {
-
     char Boule[10];
-
     unsigned int i;
-    for (i = 0; i < niv; i++) {
 
+    for (i = 0; i < niv; i++) {
         printf("Proposer une couleur (rang %d) : ", i);
         scanf("%s", Boule);
         T[i] = CouleurVersEntier(Boule);
@@ -197,14 +169,13 @@ void rempliAZero(int tab[], int nbElt) {
     }
 }
 
-int estGagne(int tab[], int level){
+int estGagne(int tab[], int level) {
     int i = 0;
-    while (i < level && tab[i]==2) {
+    while (i < level && tab[i] == 2) {
         i++;
     }
-    return i==level;
+    return i == level;
 }
-
 
 int main() {
     int level;
@@ -224,15 +195,15 @@ int main() {
 
     // boucle de jeu
     int boucle = 1;
-    int gagne =0;
+    int gagne = 0;
     int nbessai = 0;
     int tabProposition[level];
     while (boucle == 1) {
-        
+
         // Rempli le tableau des indicateurs avec 0;
         int tabIndic[level];
         rempliAZero(tabIndic, level);
-        
+
         // demander au joueur de faire une proposition
         proposition(tabProposition, level);
         printf("Proposition du joueur : ");
@@ -244,23 +215,21 @@ int main() {
         printf("Indicateurs : ");
         affiche(tabIndic, level);
         printf("2 = bonne place, 1 = existe mais mal place, 0 = n'existe pas\n");
-        
+
         gagne = estGagne(tabIndic, level);
         nbessai++;
-        if (gagne==1) {
-            boucle =0;
+        if (gagne == 1) {
+            boucle = 0;
             printf("Vous avez gagné en %d coups !\n", nbessai);
         } else {
-            if (nbessai ==15) {
+            if (nbessai == 15) {
                 printf("Vous avez perdu !\n ");
             } else {
-                printf("Il vous reste %d essais.\n", 15-nbessai);
+                printf("Il vous reste %d essais.\n", NBTOTALESSAI-nbessai);
             }
-                
         }
-        
     }
-
+    
     return 0;
 }
 
