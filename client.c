@@ -1,20 +1,20 @@
 /******************************************************************************/
-/*			Application: Mastermind				*/
+/*			Application: Mastermind				      */
 /******************************************************************************/
-/*									            */
-/*			 programme  CLIENT			        */
-/*									            */
+/*									      */
+/*			 programme  CLIENT			              */
+/*									      */
 /******************************************************************************/
-/*									            */
-/*		Auteurs :                               */
-/*      Marguerite Edouard 			            */
-/*      Chaillet Maxime                         */
-/*									            */
+/*									      */
+/*		Auteurs :                                                     */
+/*      Marguerite Edouard                                                    */
+/*      Chaillet Maxime                                                       */
+/*									      */
 /******************************************************************************/
 
 
 #include <stdio.h>
-#include <curses.h> 		/* Primitives de gestion d'�cran */
+#include <curses.h> 		/* Primitives de gestion d'écran */
 #include <sys/signal.h>
 #include <sys/wait.h>
 #include<stdlib.h>
@@ -76,8 +76,8 @@ struct sockaddr_in *p_sockaddr_locale;
 struct sockaddr_in *p_sockaddr_distante;
 
 
-// cr�ation d'une socket,
-// la structure est cr�e et associ�e � un file descriptor
+// création d'une socket,
+// la structure est crée et associée à un file descriptor
 // renvoi le file descriptor
 int socket = h_socket(AF_INET,SOCK_STREAM);
 if (socket < 0) {
@@ -89,13 +89,22 @@ if (socket < 0) {
 // Remplissage d'une structure sockaddr_in pour ip/port du serveur local
 // le system choisi le port
 // nom du pointeur: p_sockaddr_local
-///adr_socket(0, serveur, SOCK_STREAM, &p_sockaddr_locale);
-///h_bind(socket, p_sockaddr_locale);
+adr_socket(0, serveur, SOCK_STREAM, &p_sockaddr_locale);
+h_bind(socket, p_sockaddr_locale);
 // Remplissage d'une structure sockaddr_in pour ip/port du serveur distant
 // nom du pointeur: p_sockaddr_distant
-///adr_socket(service, serveur, SOCK_STREAM, &p_sockaddr_distante);
-///h_connect(socket, p_sockaddr_distante);
-///sleep(200);
+adr_socket(service, serveur, SOCK_STREAM, &p_sockaddr_distante);
+h_connect(socket, p_sockaddr_distante);
+//sleep(200);
+
+char buf_emission[1];
+buf_emission[0]= 'A';
+printf("ecriture de 1 octets dans le buffer d'emission.\n");
+h_writes(socket, buf_emission, 1);
+printf("le buffer d'emission qui a été envoyé contient %s", buf_emission);
+
+sleep(200);
+
 //h_bind(socket, p_sockaddr_local);
 //
 
