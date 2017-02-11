@@ -34,8 +34,8 @@ all: ${EXEC}
 
 
 fon.o :  fon.h fon.c
-	gcc -g -DDEBUG -c fon.c
-	#gcc -c fon.c
+	#gcc -g -DDEBUG -c fon.c
+	gcc -c fon.c
 
 client.o : fon.h	client.c
 	gcc  -g $(CFLAGS) -c  client.c

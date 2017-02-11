@@ -36,7 +36,7 @@ void attenteProposition(int tabProposition[], int level);
 void reponse(int T_prop[], int T_code[], int T_indic[], int level);
 int recherche(int T[], unsigned int l, unsigned x);
 int estGagne(int tab[], int level);
-void envoieIndicateurs(int tabIndic[], int level);
+void envoieIndicateursEtNoEssai(int tabIndic[], int level, int noEssai);
 int envoieTCP(char data[], int nbData);
 
 /******************************************************************************/
@@ -257,17 +257,27 @@ void attenteProposition(int tabProposition[], int level) {
 }
 
 /**
- * Converti le tableau des indicateurs en aciii et l'envoie au client
+ * Prepare les donnes des indicateurs et des essais pour envoi au client
  * @param tabIndic : tableau d'entier des indicateurs 
  * @param level : taille des tableaux
+ * @param noEssai : le numero de l'essai 
  */
-void envoieIndicateurs(int tabIndic[], int level){
-    char donneeAEnvoyee[level];
+void envoieIndicateursEtNoEssai(int tabIndic[], int level, int noEssai){
+    char donneeAEnvoyee[level+2]; //noessai est sur 2 digits
     int i;
     for (i=0;i<level;i++){
             donneeAEnvoyee[i] = tabIndic[i] + '0';
     }
-    envoieTCP(donneeAEnvoyee, level);
+    char chaine[2];
+    sprintf(chaine, "%d", noEssai );
+    if (noEssai<10 ) {
+        donneeAEnvoyee[level] = '0';
+        donneeAEnvoyee[level+1] = chaine[0];
+    } else {
+        donneeAEnvoyee[level] = chaine[0];
+        donneeAEnvoyee[level+1] = chaine[1];
+    }
+    envoieTCP(donneeAEnvoyee, level+2);
 }
 
 int envoieTCP(char data[], int nbData) {
@@ -302,10 +312,10 @@ void serveur_appli(char *service) {
     // boucle d'attente de porpositions
     int boucle = 1;
     int gagne = 0;
-    int nbessai = 0;
+    int noEssai = 0;  // numéro de l'essai
     int tabProposition[level];
     while (boucle == 1) {
-
+        noEssai++;
         // Vide le tableau des indicateurs (=met 0 dans chaque cases)
         int tabIndic[level];
         rempliAZero(tabIndic, level);
@@ -320,18 +330,18 @@ void serveur_appli(char *service) {
         
         printf("Indicateurs : ");
         affiche(tabIndic, level);
-        envoieIndicateurs(tabIndic, level);
+        envoieIndicateursEtNoEssai(tabIndic, level, noEssai);
         
         gagne = estGagne(tabIndic, level);
-        nbessai++;
+        
         if (gagne == 1) {
             boucle = 0;
-            printf("Vous avez gagné en %d coups !\n", nbessai);
+            printf("Vous avez gagné en %d coups !\n", noEssai);
         } else {
-            if (nbessai == 15) {
+            if (noEssai == 15) {
                 printf("Vous avez perdu !\n ");
             } else {
-                printf("Il vous reste %d essais.\n", NBTOTALESSAI - nbessai);
+                printf("Il vous reste %d essais.\n", NBTOTALESSAI - noEssai);
             }
         }
 

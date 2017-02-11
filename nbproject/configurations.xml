@@ -48,11 +48,6 @@
         </cTool>
       </item>
       <item path="fon.c" ex="false" tool="0" flavor2="0">
-        <cTool flags="0">
-          <preprocessorList>
-            <Elem>DEBUG</Elem>
-          </preprocessorList>
-        </cTool>
       </item>
       <item path="serveur.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">

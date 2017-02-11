@@ -31,7 +31,7 @@ int masocket;
 void client_appli(char *serveur, char *service);
 void faireProposition(char T[], unsigned int niv);
 char couleurVersChar(char *coul);
-void attenteIndicateurs(int tabIndicateurs[], int level);
+void attenteIndicateursEtNoEssai(int tabIndicateurs[], int level, int *noEssai);
 void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet);
 
 /*****************************************************************************/
@@ -82,6 +82,21 @@ void affiche(char T[], unsigned int l) {
     printf("[");
     for (i = 0; i < l; i++) {
         printf(" %c ", T[i]);
+    };
+    printf("]\n");
+}
+
+/* affiche le tableau contenant la combinaison de couleur a trouver.
+ * parametre T: un tableau contenant le code à trouver.
+ * parametre l: le nombre de couleurs à trouver
+ */
+void affichetabInt(int T[], unsigned int l) {
+    /* affiche les l premiers elements du tableau T */
+
+    unsigned int i;
+    printf("[");
+    for (i = 0; i < l; i++) {
+        printf(" %d ", T[i]);
     };
     printf("]\n");
 }
@@ -157,13 +172,22 @@ void faireProposition(char T[], unsigned int niv) {
     }
 }
 
-void attenteIndicateurs(int tabIndicateurs[], int level) {
-    char donneeRecue[level];
-    lireBufferTCP(masocket, donneeRecue, level);
+/**
+ * Attend et recupère les indicateurs et le numéro de l'essai
+ * @param tabIndicateurs : le tableau des indicateurs recupéré
+ * @param level: la taille du tableau indicateur
+ * @param noEssai: le numéro de l'essai récupéré
+ */
+void attenteIndicateursEtNoEssai(int tabIndicateurs[], int level, int *noEssai) {
+    char donneeRecue[level + 2];
+    lireBufferTCP(masocket, donneeRecue, level + 2);
     int i;
     for (i = 0; i < level; i++) {
         tabIndicateurs[i] = donneeRecue[i] - '0';
     }
+    *noEssai = ((int) (donneeRecue[level] - '0'))*10 + (int) (donneeRecue[level + 1] - '0');
+
+
 }
 
 /**
@@ -241,9 +265,9 @@ void client_appli(char *serveur, char *service)
         // boucle de jeu
         int boucle = 1;
         int gagne = 0;
-        int nbessai = 0;
         char tabProposition[level];
         int tabIndic[level];
+        int noEssai;
 
         printf("0 = Rouge,  1 = Jaune, 2 = Vert, 3 = Bleu, 4 = Orange, 5 = Blanc, 6 = Violet, 7 = Fushia\n");
 
@@ -255,13 +279,21 @@ void client_appli(char *serveur, char *service)
             printf("Proposition du joueur : ");
             affiche(tabProposition, level);
 
-            attenteIndicateurs(tabIndic, level);
-            printf("2 = bonne place, 1 = existe mais mal place, 0 = n'existe pas\n");
+            attenteIndicateursEtNoEssai(tabIndic, level, &noEssai);
 
+            printf("2 = bonne place, 1 = existe mais mal place, 0 = n'existe pas\n");
+            printf("les indicateurs sont : ");
+            affichetabInt(tabIndic, level);
+            printf("Il reste %d essais\n", 15 - noEssai);
             gagne = estGagne(tabIndic, level);
-            if (gagne ==1) {
-                printf("Vous avez gagné !\n");
+            if (gagne == 1) {
+                printf("Vous avez gagné en %d coups!\n", noEssai);
                 boucle = 0;
+            }
+            if (noEssai == 15) {
+                printf("Vous avez perdu !\n");
+                boucle = 0;
+
             }
         }
     }
