@@ -14,22 +14,30 @@
 /*									      */
 /******************************************************************************/
 
-#include<stdio.h>
+#include <stdio.h>
 #include <curses.h>
-#include<sys/signal.h>
-#include<sys/wait.h>
-#include<stdlib.h>
+#include <sys/signal.h>
+#include <sys/wait.h>
+#include <stdlib.h>
 #include "fon.h"     		/* Primitives de la boite a outils */
+#include <string.h>
 
 #define SERVICE_DEFAUT "1111"
+const int NBTOTALESSAI = 15;
 int masocket;
+int socket_connecte;
 int level;
+
 
 void serveur_appli(char *service); /* programme serveur */
 void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet);
 void genere(int T[], unsigned int l);
-
-
+void attenteProposition(int tabProposition[], int level);
+void reponse(int T_prop[], int T_code[], int T_indic[], int level);
+int recherche(int T[], unsigned int l, unsigned x);
+int estGagne(int tab[], int level);
+void envoieIndicateurs(int tabIndic[], int level);
+int envoieTCP(char data[], int nbData);
 
 /******************************************************************************/
 
@@ -91,10 +99,10 @@ int attenteConnexion(char *service) {
     return 0;
 }
 
-void attenteParam(int socket_connecte){
+void attenteParam(int socket_connecte) {
     char donneeRecue[1];
     lireBufferTCP(socket_connecte, donneeRecue, 1);
-    level = donneeRecue[0]-'0';
+    level = donneeRecue[0] - '0';
 }
 
 /**
@@ -104,13 +112,16 @@ void attenteParam(int socket_connecte){
  * @param donneeRecue : tableau contenant la donnée recue
  * @param nboctet : nb d'octets lus
  */
-void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet){
+void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet) {
     // char buf_reception[1];
     //int res;
     printf("lecture de %d octets dans le buffer de reception.\n", nboctet);
     h_reads(socket_connecte, donneeRecue, nboctet);
+        char dataAvecMarqueurFin[nboctet + 1];
+    strcpy(dataAvecMarqueurFin, donneeRecue);
+    dataAvecMarqueurFin[nboctet] = '\0';
     printf("La taille du buffer de reception est de %d octets.\n", nboctet);
-    printf("Le buffer de reception contient les ascii suivants: %c.\n", donneeRecue[0]);
+    printf("Le buffer de reception contient les ascii suivants: %s\n", dataAvecMarqueurFin);
 }
 
 /**
@@ -143,8 +154,130 @@ void affiche(int T[], unsigned int l) {
     printf("]\n");
 }
 
+/**
+ * compare la proposition avec le code secrète et renvoie un tableau d'indicateurs
+ * @param T_prop : tableau de proposition
+ * @param T_code : tableau du code secret
+ * @param T_indic : tableau des indicateur
+ * @param level : taille des tableaux
+ */
+void reponse(int T_prop[], int T_code[], int T_indic[], int level) {
+
+    int Temp_prop[level];
+    int Temp_code[level];
+    unsigned int i;
+
+    /* les temporaires */
+    for (i = 0; i < level; i++) {
+        Temp_code[i] = T_code[i];
+        Temp_prop[i] = T_prop[i];
+    }
+
+    /* Analyse des jetons bien placés */
+    for (i = 0; i < level; i++) {
+        if (Temp_prop[i] == Temp_code[i]) {
+            T_indic[i] = 2;
+            Temp_prop[i] = -1;
+            Temp_code[i] = -1;
+        }
+    }
+
+    /* Analyse des jetons non présents */
+    for (i = 0; i < level; i++) {
+        if (Temp_prop[i] != -1) {
+            /* Recherche */
+            int position;
+            position = recherche(Temp_code, level, Temp_prop[i]);
+            if (position == -1) {
+                Temp_prop[i] = -1;
+            }
+        }
+    }
+
+    /* Analyse des jetons mal placés */
+    for (i = 0; i < level; i++) {
+        if (Temp_prop[i] != -1) {
+            /* Recherche */
+            int position;
+            position = recherche(Temp_code, level, Temp_prop[i]);
+            if (position != -1) {
+                T_indic[i] = 1;
+                Temp_code[position] = -1;
+            }
+        }
+    }
+}
+
+/**
+ * Recherche un entier dans un tableau et renvoit sa position
+ * @param T: le tableau 
+ * @param l  : le nbre d'element du tableau
+ * @param x: l'entier recherché
+ * @return : position renvoyée; -1 si pas trouvée.
+ */
+int recherche(int T[], unsigned int l, unsigned x) {
+    /* Recherche de l'entier x dans le tableau T */
+    int position = -1;
+    unsigned int i;
+    i = 0;
+
+    while (i < l && T[i] != x) {
+        i++;
+    };
+
+    if (i < l) {
+        position = i;
+    };
+    return position;
+}
+
+void rempliAZero(int tab[], int nbElt) {
+    int i;
+    for (i = 0; i < nbElt; i++) {
+        tab[i] = 0;
+    }
+}
+
+int estGagne(int tab[], int level) {
+    int i = 0;
+    while (i < level && tab[i] == 2) {
+        i++;
+    }
+    return i == level;
+}
 
 
+void attenteProposition(int tabProposition[], int level) {
+    char donneeRecue[level];
+    lireBufferTCP(socket_connecte, donneeRecue, level);
+    int i;
+    for (i=0; i<level; i++){
+        tabProposition[i]= donneeRecue[i]- '0';
+    }
+}
+
+/**
+ * Converti le tableau des indicateurs en aciii et l'envoie au client
+ * @param tabIndic : tableau d'entier des indicateurs 
+ * @param level : taille des tableaux
+ */
+void envoieIndicateurs(int tabIndic[], int level){
+    char donneeAEnvoyee[level];
+    int i;
+    for (i=0;i<level;i++){
+            donneeAEnvoyee[i] = tabIndic[i] + '0';
+    }
+    envoieTCP(donneeAEnvoyee, level);
+}
+
+int envoieTCP(char data[], int nbData) {
+    printf("ecriture de %d octets dans le buffer d'emission.\n", nbData);
+    h_writes(socket_connecte, data, nbData);
+    char dataAvecMarqueurFin[nbData + 1];
+    strcpy(dataAvecMarqueurFin, data);
+    dataAvecMarqueurFin[nbData] = '\0';
+    printf("le buffer d'emission qui a été envoyé contient %s \n", dataAvecMarqueurFin);
+}
 /******************************************************************************/
 
 /*/* Procedure correspondant au traitemnt du serveur de votre application
@@ -154,19 +287,56 @@ void serveur_appli(char *service) {
 
     attenteConnexion(service);
     //blocage en attente de connexion et accept des qu'un client fait une demande
-    int socket_connecte;
     socket_connecte = h_accept(masocket, &sockaddr_client);
 
     attenteParam(socket_connecte);
     printf("le niveau est %d\n", level);
-    
+
     // creation aléatoire du code secret dans tableau TabPartie
     int tabCode[level];
     srandom(time(NULL)); /* germe pour la suite pseudo-aleatoire */
     genere(tabCode, level);
-    printf("0 = Rouge,  1 = Jaune, 2 = Vert, 3 = Bleu, 4 = Orange, 5 = Blanc, 6 = Violet, 7 = Fushia\n");
     printf("Code secret : ");
     affiche(tabCode, level);
+
+    // boucle d'attente de porpositions
+    int boucle = 1;
+    int gagne = 0;
+    int nbessai = 0;
+    int tabProposition[level];
+    while (boucle == 1) {
+
+        // Vide le tableau des indicateurs (=met 0 dans chaque cases)
+        int tabIndic[level];
+        rempliAZero(tabIndic, level);
+
+        // attend la proposition du joueur
+        attenteProposition(tabProposition, level);
+        printf("Proposition du joueur : ");
+        affiche(tabProposition, level);
+
+        // Rempli tabIndic en fonction de la proposition faite
+        reponse(tabProposition, tabCode, tabIndic, level);
+        
+        printf("Indicateurs : ");
+        affiche(tabIndic, level);
+        envoieIndicateurs(tabIndic, level);
+        
+        gagne = estGagne(tabIndic, level);
+        nbessai++;
+        if (gagne == 1) {
+            boucle = 0;
+            printf("Vous avez gagné en %d coups !\n", nbessai);
+        } else {
+            if (nbessai == 15) {
+                printf("Vous avez perdu !\n ");
+            } else {
+                printf("Il vous reste %d essais.\n", NBTOTALESSAI - nbessai);
+            }
+        }
+
+    }
+
 
 
 

@@ -15,7 +15,6 @@ typedef enum couleur boule;
  * parametre T: un tableau contenant le code à trouver.
  * parametre l: le nombre de couleurs à trouver
  */
-
 void affiche(int T[], unsigned int l) {
     /* affiche les l premiers elements du tableau T */
 

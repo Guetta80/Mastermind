@@ -18,6 +18,7 @@
 #include <sys/signal.h>
 #include <sys/wait.h>
 #include<stdlib.h>
+#include <string.h>
 
 #include "fon.h"   		/* primitives de la boite a outils */
 
@@ -28,7 +29,10 @@ int masocket;
 
 
 void client_appli(char *serveur, char *service);
-
+void faireProposition(char T[], unsigned int niv);
+char couleurVersChar(char *coul);
+void attenteIndicateurs(int tabIndicateurs[], int level);
+void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet);
 
 /*****************************************************************************/
 /*--------------- programme client -----------------------*/
@@ -65,6 +69,21 @@ int connexion(char *serveur, char *service) {
     adr_socket(service, serveur, SOCK_STREAM, &p_sockaddr_distante);
     h_connect(masocket, p_sockaddr_distante);
     return 0;
+}
+
+/* affiche le tableau contenant la combinaison de couleur a trouver.
+ * parametre T: un tableau contenant le code à trouver.
+ * parametre l: le nombre de couleurs à trouver
+ */
+void affiche(char T[], unsigned int l) {
+    /* affiche les l premiers elements du tableau T */
+
+    unsigned int i;
+    printf("[");
+    for (i = 0; i < l; i++) {
+        printf(" %c ", T[i]);
+    };
+    printf("]\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -116,7 +135,95 @@ int choixNiveauJeu(int *level) {
 int envoieTCP(char data[], int nbData) {
     printf("ecriture de 1 octets dans le buffer d'emission.\n");
     h_writes(masocket, data, nbData);
-    printf("le buffer d'emission qui a été envoyé contient %s", data);
+    char dataAvecMarqueurFin[nbData + 1];
+    strcpy(dataAvecMarqueurFin, data);
+    dataAvecMarqueurFin[nbData] = '\0';
+    printf("le buffer d'emission qui a été envoyé contient %s \n", dataAvecMarqueurFin);
+}
+
+/**
+ * Permet au joueur de faire une proposition
+ * @param T : tableau de char contenant les chiffres correspondant aux couleurs en ascii
+ * @param niv: taille du tableau
+ */
+void faireProposition(char T[], unsigned int niv) {
+    char Boule[10];
+    unsigned int i;
+
+    for (i = 0; i < niv; i++) {
+        printf("Proposer une couleur (rang %d) : ", i);
+        scanf("%s", Boule);
+        T[i] = couleurVersChar(Boule);
+    }
+}
+
+void attenteIndicateurs(int tabIndicateurs[], int level) {
+    char donneeRecue[level];
+    lireBufferTCP(masocket, donneeRecue, level);
+    int i;
+    for (i = 0; i < level; i++) {
+        tabIndicateurs[i] = donneeRecue[i] - '0';
+    }
+}
+
+/**
+ * Lit nboctet dans le buffer de reception correspondant à la socket socket_connectee 
+ * et stocke le resultat dans un tableau
+ * @param socket_connecte : la socket
+ * @param donneeRecue : tableau contenant la donnée recue
+ * @param nboctet : nb d'octets lus
+ */
+void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet) {
+    // char buf_reception[1];
+    //int res;
+    printf("lecture de %d octets dans le buffer de reception.\n", nboctet);
+    h_reads(socket_connecte, donneeRecue, nboctet);
+    char dataAvecMarqueurFin[nboctet + 1];
+    strcpy(dataAvecMarqueurFin, donneeRecue);
+    dataAvecMarqueurFin[nboctet] = '\0';
+    printf("La taille du buffer de reception est de %d octets.\n", nboctet);
+    printf("Le buffer de reception contient les ascii suivants: %s\n", dataAvecMarqueurFin);
+}
+
+char couleurVersChar(char *coul) {
+
+    if (strcmp(coul, "Rouge") == 0) {
+        return '0';
+    } else {
+        if (strcmp(coul, "Jaune") == 0) {
+            return '1';
+        } else {
+            if (strcmp(coul, "Vert") == 0) {
+                return '2';
+            } else {
+                if (strcmp(coul, "Bleu") == 0) {
+                    return '3';
+                } else {
+                    if (strcmp(coul, "Orange") == 0) {
+                        return '4';
+                    } else {
+                        if (strcmp(coul, "Blanc") == 0) {
+                            return '5';
+                        } else {
+                            if (strcmp(coul, "Violet") == 0) {
+                                return '6';
+                            } else {
+                                return '7';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+int estGagne(int tab[], int level) {
+    int i = 0;
+    while (i < level && tab[i] == 2) {
+        i++;
+    }
+    return i == level;
 }
 
 /*****************************************************************************/
@@ -126,21 +233,37 @@ void client_appli(char *serveur, char *service)
     // etablissement de la connexion
     int connecte = connexion(serveur, service);
     if (connecte != 0) {
-        printf("Désolé, Impossible de jouer. Probleme lors de l'établissement de la connexion. \n");
+        printf("Désolé, Impossible de jouer. Problème lors de l'établissement de la connexion. \n");
     } else {
         int level;
         choixNiveauJeu(&level);
 
+        // boucle de jeu
+        int boucle = 1;
+        int gagne = 0;
+        int nbessai = 0;
+        char tabProposition[level];
+        int tabIndic[level];
 
+        printf("0 = Rouge,  1 = Jaune, 2 = Vert, 3 = Bleu, 4 = Orange, 5 = Blanc, 6 = Violet, 7 = Fushia\n");
 
-        sleep(20);
+        while (boucle == 1) {
+            // Le joueur fait une proposition
+            faireProposition(tabProposition, level);
+            envoieTCP(tabProposition, level);
+            //envoieProposition(tabProposition, level);
+            printf("Proposition du joueur : ");
+            affiche(tabProposition, level);
+
+            attenteIndicateurs(tabIndic, level);
+            printf("2 = bonne place, 1 = existe mais mal place, 0 = n'existe pas\n");
+
+            gagne = estGagne(tabIndic, level);
+            if (gagne ==1) {
+                printf("Vous avez gagné !\n");
+                boucle = 0;
+            }
+        }
     }
-    //h_bind(socket, p_sockaddr_local);
-    //
-
-
-    // Code du jeu
-
 }
-/*****************************************************************************/
 
