@@ -502,6 +502,9 @@ void client_appli(char *serveur, char *service)
 
             }
         }
+        // sortie du jeu
+        // fermeture Connexion
+        h_close(masocket);
     }
 }
 

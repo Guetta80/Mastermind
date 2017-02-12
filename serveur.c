@@ -117,7 +117,7 @@ void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet) {
     //int res;
     printf("lecture de %d octets dans le buffer de reception.\n", nboctet);
     h_reads(socket_connecte, donneeRecue, nboctet);
-        char dataAvecMarqueurFin[nboctet + 1];
+    char dataAvecMarqueurFin[nboctet + 1];
     strcpy(dataAvecMarqueurFin, donneeRecue);
     dataAvecMarqueurFin[nboctet] = '\0';
     printf("La taille du buffer de reception est de %d octets.\n", nboctet);
@@ -246,13 +246,12 @@ int estGagne(int tab[], int level) {
     return i == level;
 }
 
-
 void attenteProposition(int tabProposition[], int level) {
     char donneeRecue[level];
     lireBufferTCP(socket_connecte, donneeRecue, level);
     int i;
-    for (i=0; i<level; i++){
-        tabProposition[i]= donneeRecue[i]- '0';
+    for (i = 0; i < level; i++) {
+        tabProposition[i] = donneeRecue[i] - '0';
     }
 }
 
@@ -262,22 +261,22 @@ void attenteProposition(int tabProposition[], int level) {
  * @param level : taille des tableaux
  * @param noEssai : le numero de l'essai 
  */
-void envoieIndicateursEtNoEssai(int tabIndic[], int level, int noEssai){
-    char donneeAEnvoyee[level+2]; //noessai est sur 2 digits
+void envoieIndicateursEtNoEssai(int tabIndic[], int level, int noEssai) {
+    char donneeAEnvoyee[level + 2]; //noessai est sur 2 digits
     int i;
-    for (i=0;i<level;i++){
-            donneeAEnvoyee[i] = tabIndic[i] + '0';
+    for (i = 0; i < level; i++) {
+        donneeAEnvoyee[i] = tabIndic[i] + '0';
     }
     char chaine[2];
-    sprintf(chaine, "%d", noEssai );
-    if (noEssai<10 ) {
+    sprintf(chaine, "%d", noEssai);
+    if (noEssai < 10) {
         donneeAEnvoyee[level] = '0';
-        donneeAEnvoyee[level+1] = chaine[0];
+        donneeAEnvoyee[level + 1] = chaine[0];
     } else {
         donneeAEnvoyee[level] = chaine[0];
-        donneeAEnvoyee[level+1] = chaine[1];
+        donneeAEnvoyee[level + 1] = chaine[1];
     }
-    envoieTCP(donneeAEnvoyee, level+2);
+    envoieTCP(donneeAEnvoyee, level + 2);
 }
 
 int envoieTCP(char data[], int nbData) {
@@ -312,7 +311,7 @@ void serveur_appli(char *service) {
     // boucle d'attente de porpositions
     int boucle = 1;
     int gagne = 0;
-    int noEssai = 0;  // numéro de l'essai
+    int noEssai = 0; // numéro de l'essai
     int tabProposition[level];
     while (boucle == 1) {
         noEssai++;
@@ -322,35 +321,31 @@ void serveur_appli(char *service) {
 
         // attend la proposition du joueur
         attenteProposition(tabProposition, level);
+#ifdef DEBUG
         printf("Proposition du joueur : ");
         affiche(tabProposition, level);
-
+#endif
         // Rempli tabIndic en fonction de la proposition faite
         reponse(tabProposition, tabCode, tabIndic, level);
-        
+#ifdef DEBUG
         printf("Indicateurs : ");
         affiche(tabIndic, level);
+#endif
         envoieIndicateursEtNoEssai(tabIndic, level, noEssai);
-        
+
         gagne = estGagne(tabIndic, level);
-        
         if (gagne == 1) {
             boucle = 0;
-            printf("Vous avez gagné en %d coups !\n", noEssai);
-        } else {
-            if (noEssai == 15) {
-                printf("Vous avez perdu !\n ");
-            } else {
-                printf("Il vous reste %d essais.\n", NBTOTALESSAI - noEssai);
-            }
         }
 
+        if (noEssai == 15) {
+            boucle = 0;
+        }
     }
 
-
-
-
-    //sleep(200);
+    // sortie du jeu
+    // fermeture Connexion
+    h_close(socket_connecte);
 
 }
 
