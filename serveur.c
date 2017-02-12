@@ -113,15 +113,17 @@ void attenteParam(int socket_connecte) {
  * @param nboctet : nb d'octets lus
  */
 void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet) {
-    // char buf_reception[1];
-    //int res;
+#ifdef DEBUG
     printf("lecture de %d octets dans le buffer de reception.\n", nboctet);
+#endif    
     h_reads(socket_connecte, donneeRecue, nboctet);
+#ifdef DEBUG    
     char dataAvecMarqueurFin[nboctet + 1];
     strcpy(dataAvecMarqueurFin, donneeRecue);
     dataAvecMarqueurFin[nboctet] = '\0';
     printf("La taille du buffer de reception est de %d octets.\n", nboctet);
     printf("Le buffer de reception contient les ascii suivants: %s\n", dataAvecMarqueurFin);
+#endif
 }
 
 /**
@@ -280,12 +282,16 @@ void envoieIndicateursEtNoEssai(int tabIndic[], int level, int noEssai) {
 }
 
 int envoieTCP(char data[], int nbData) {
+#ifdef DEBUG
     printf("ecriture de %d octets dans le buffer d'emission.\n", nbData);
+#endif
     h_writes(socket_connecte, data, nbData);
+#ifdef DEBUG
     char dataAvecMarqueurFin[nbData + 1];
     strcpy(dataAvecMarqueurFin, data);
     dataAvecMarqueurFin[nbData] = '\0';
     printf("le buffer d'emission qui a été envoyé contient %s \n", dataAvecMarqueurFin);
+#endif
 }
 /******************************************************************************/
 
@@ -299,8 +305,9 @@ void serveur_appli(char *service) {
     socket_connecte = h_accept(masocket, &sockaddr_client);
 
     attenteParam(socket_connecte);
+#ifdef DEBUG
     printf("le niveau est %d\n", level);
-
+#endif
     // creation aléatoire du code secret dans tableau TabPartie
     int tabCode[level];
     srandom(time(NULL)); /* germe pour la suite pseudo-aleatoire */
