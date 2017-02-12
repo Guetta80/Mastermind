@@ -37,7 +37,7 @@ void reponse(int T_prop[], int T_code[], int T_indic[], int level);
 int recherche(int T[], unsigned int l, unsigned x);
 int estGagne(int tab[], int level);
 void envoieIndicateursEtNoEssai(int tabIndic[], int level, int noEssai);
-int envoieTCP(char data[], int nbData);
+void envoieTCP(char data[], int nbData);
 
 /******************************************************************************/
 
@@ -88,17 +88,16 @@ int attenteConnexion(char *service) {
     // nom du pointeur: p_sockaddr_local
     adr_socket(service, NULL, SOCK_STREAM, &p_sockaddr_locale);
     h_bind(masocket, p_sockaddr_locale);
-    // Remplissage d'une structure sockaddr_in pour ip/port du serveur distant
-    // nom du pointeur: p_sockaddr_distant
-    //char* client = "localhost";
-    //adr_socket(0, 0, SOCK_STREAM, &p_sockaddr_client);
-    //int res = getpeername(socket,p_sockaddr_client, 1);
     //mode passive sur id socket, taille file d'attente =5
     h_listen(masocket, 5);
     printf("Le serveur est en écoute sur le port %s\n", service);
     return 0;
 }
 
+/**
+ * Attend le paramatre de niveau de jeu fournit par le client
+ * @param socket_connecte : la socket connecte
+ */
 void attenteParam(int socket_connecte) {
     char donneeRecue[1];
     lireBufferTCP(socket_connecte, donneeRecue, 1);
@@ -127,15 +126,13 @@ void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet) {
 }
 
 /**
- * Rempli les l premieres cases du tableau par un nombre aléatoire entre 0 et 7
+ * Rempli le tableau du code secret par un nombre aléatoire entre 0 et 7 correspondant aux 8 couleurs
  * @param T: le tableau qui contiendra le code secret
- * @param l: le nombre de boules dans le tableau
+ * @param l: taille du tableau
  */
-void genere(int T[], unsigned int l) {
-    /* initialise les l premiers elements du tableau T */
-
+void genere(int T[], unsigned int level) {
     unsigned int i;
-    for (i = 0; i < l; i++) {
+    for (i = 0; i < level; i++) {
         T[i] = (random() % 8); // Genere un nombre aléatoire entre 0 et 7
     };
 }
@@ -144,6 +141,7 @@ void genere(int T[], unsigned int l) {
  * parametre T: un tableau contenant le code à trouver.
  * parametre l: le nombre de couleurs à trouver
  */
+#ifdef DEBUG
 
 void affiche(int T[], unsigned int l) {
     /* affiche les l premiers elements du tableau T */
@@ -155,6 +153,7 @@ void affiche(int T[], unsigned int l) {
     };
     printf("]\n");
 }
+#endif
 
 /**
  * compare la proposition avec le code secrète et renvoie un tableau d'indicateurs
@@ -233,6 +232,11 @@ int recherche(int T[], unsigned int l, unsigned x) {
     return position;
 }
 
+/**
+ * Rempli un tableau (celui des indicateurs) avec des zeros
+ * @param tab : un tableau
+ * @param nbElt taille du tableau
+ */
 void rempliAZero(int tab[], int nbElt) {
     int i;
     for (i = 0; i < nbElt; i++) {
@@ -240,6 +244,12 @@ void rempliAZero(int tab[], int nbElt) {
     }
 }
 
+/**
+ * Determine si une partie est gagnée
+ * @param tab : tableau des indicateurs
+ * @param level : taille du tableau
+ * @return 1 = gagné, 0=perdu
+ */
 int estGagne(int tab[], int level) {
     int i = 0;
     while (i < level && tab[i] == 2) {
@@ -248,6 +258,11 @@ int estGagne(int tab[], int level) {
     return i == level;
 }
 
+/**
+ * Attend de recevoir un proposition du client et lit cette proposition
+ * @param tabProposition : les donnees recues dans un tableau d'entier
+ * @param level : taille du tableau
+ */
 void attenteProposition(int tabProposition[], int level) {
     char donneeRecue[level];
     lireBufferTCP(socket_connecte, donneeRecue, level);
@@ -281,7 +296,12 @@ void envoieIndicateursEtNoEssai(int tabIndic[], int level, int noEssai) {
     envoieTCP(donneeAEnvoyee, level + 2);
 }
 
-int envoieTCP(char data[], int nbData) {
+/**
+ * Envoie un message au client
+ * @param data : tableau de donneés
+ * @param nbData : taille du tableau
+ */
+void envoieTCP(char data[], int nbData) {
 #ifdef DEBUG
     printf("ecriture de %d octets dans le buffer d'emission.\n", nbData);
 #endif
@@ -295,7 +315,9 @@ int envoieTCP(char data[], int nbData) {
 }
 /******************************************************************************/
 
-/*/* Procedure correspondant au traitemnt du serveur de votre application
+/**
+ * Procedure correspondant au traitemnt du serveur de votre application
+ * @param service
  */
 void serveur_appli(char *service) {
     struct sockaddr_in sockaddr_client;
@@ -312,9 +334,10 @@ void serveur_appli(char *service) {
     int tabCode[level];
     srandom(time(NULL)); /* germe pour la suite pseudo-aleatoire */
     genere(tabCode, level);
+#ifdef DEBUG
     printf("Code secret : ");
     affiche(tabCode, level);
-
+#endif
     // boucle d'attente de porpositions
     int boucle = 1;
     int gagne = 0;
@@ -344,17 +367,11 @@ void serveur_appli(char *service) {
         if (gagne == 1) {
             boucle = 0;
         }
-
         if (noEssai == 15) {
             boucle = 0;
         }
     }
-
     // sortie du jeu
     // fermeture Connexion
     h_close(socket_connecte);
-
 }
-
-/******************************************************************************/
-
