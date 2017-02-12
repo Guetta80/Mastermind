@@ -9,6 +9,7 @@
       <in>essaison.c</in>
       <in>fon.c</in>
       <in>fon.h</in>
+      <in>getaddrinfo.c</in>
       <in>hello.c</in>
       <in>serveur.c</in>
     </df>

@@ -39,9 +39,6 @@ void afficheIndicateurs(int tabIndic[], int level, int optCouleur);
 void afficheLegendeCouleur(int optCouleur);
 
 
-/*****************************************************************************/
-/*--------------- programme client -----------------------*/
-
 /**
  * Creation d'une connexion
  * @param serveur : 
@@ -49,8 +46,6 @@ void afficheLegendeCouleur(int optCouleur);
  * @return : code d'erreur: <0=erreur
  */
 int connexion(char *serveur, char *service) {
-    //declaration de types
-    struct sockaddr_in *p_sockaddr_locale;
     struct sockaddr_in *p_sockaddr_distante;
     int res;
 
@@ -66,16 +61,11 @@ int connexion(char *serveur, char *service) {
         printf("Socket créée avec succès. id= %d\n", masocket);
     }
 
-    // Remplissage d'une structure sockaddr_in pour ip/port du serveur local
-    // le system choisi le port
-    // nom du pointeur: p_sockaddr_local
-    adr_socket(0, serveur, SOCK_STREAM, &p_sockaddr_locale);
-    h_bind(masocket, p_sockaddr_locale);
     // Remplissage d'une structure sockaddr_in pour ip/port du serveur distant
     adr_socket(service, serveur, SOCK_STREAM, &p_sockaddr_distante);
     res = h_connect(masocket, p_sockaddr_distante);
     if (res < 0) {
-        printf("Echec lors de la connexion. Vérifiez que le serveur est démarré sur la machine %s.\n", serveur);
+        printf("Echec lors de la connexion. Vérifiez que le serveur est démarré sur la machine %s et que les ports utilisés sont les même.\n", serveur);
     }
     return res;
 }
