@@ -461,6 +461,7 @@ void client_appli(char *serveur, char *service)
     int connecte = connexion(serveur, service);
     if (connecte != 0) {
         printf("Désolé, Impossible de jouer. Problème lors de l'établissement de la connexion. \n");
+        
     } else {
         int level;
         choixNiveauJeu(&level);
