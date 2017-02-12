@@ -1,4 +1,3 @@
-
 OBJ1 = fon.o client.o
 OBJ2 = fon.o serveur.o
 OPTIONS	=
@@ -29,7 +28,7 @@ OPTIONS	+= -ltermcap  -lsocket -lnsl
 CFLAGS	+= -I..
 endif
 
-EXEC = ${OBJ1} client ${OBJ2} serveur algo
+EXEC = ${OBJ1} client ${OBJ2} serveur
 all: ${EXEC}
 
 
@@ -38,21 +37,16 @@ fon.o :  fon.h fon.c
 	gcc -c fon.c
 
 client.o : fon.h	client.c
-	gcc  -g $(CFLAGS) -c  client.c
+	gcc  -Wall -g $(CFLAGS) -c  client.c
 
 serveur.o : fon.h	serveur.c
-	gcc  -g $(CFLAGS) -c  serveur.c
+	gcc  -Wall -g $(CFLAGS) -c  serveur.c
 
 client : ${OBJ1}
-	gcc -g $(LFLAGS) ${OBJ1} -o client -lcurses   $(OPTIONS)
+	gcc -Wall -g $(LFLAGS) ${OBJ1} -o client -lcurses   $(OPTIONS)
 
 serveur : ${OBJ2}
-	gcc -g $(LFLAGS) ${OBJ2} -o serveur -lcurses   $(OPTIONS)
-
-# pour tests
-algo : algo_mastermind.c
-	gcc -g $(LFLAGS) algo_mastermind.c -o algo_mastermind $(OPTIONS)
-
+	gcc -Wall -g $(LFLAGS) ${OBJ2} -o serveur -lcurses   $(OPTIONS)
 
 clean :
 	rm -f ${EXEC} core

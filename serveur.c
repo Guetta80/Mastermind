@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include "fon.h"     		/* Primitives de la boite a outils */
 #include <string.h>
+#include <time.h>
 
 #define SERVICE_DEFAUT "1111"
 const int NBTOTALESSAI = 15;
@@ -67,6 +68,7 @@ int main(int argc, char *argv[]) {
     ce serveur*/
 
     serveur_appli(service);
+    return 0;
 }
 
 /**

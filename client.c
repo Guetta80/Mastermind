@@ -37,6 +37,8 @@ void afficheProposition(int T[], unsigned int l, int optCouleur);
 void afficheIndicateurs(int tabIndic[], int level, int optCouleur);
 void afficheLegendeCouleur(int optCouleur);
 void envoieTCP(char data[], int nbData);
+int EntierVersCouleur(int c);
+int EntierVersIndicateur(int c);
 
 /**
  * Creation d'une connexion
@@ -208,6 +210,7 @@ int main(int argc, char *argv[]) {
     /* service desire par le client */
 
     client_appli(serveur, service);
+    return 0;
 }
 
 /**
