@@ -46,13 +46,13 @@ void afficheLegendeCouleur(int optCouleur);
  * Creation d'une connexion
  * @param serveur : 
  * @param service : le port utilisé
- * @return : code d'erreur: 0=succes, 1=erreur
+ * @return : code d'erreur: <0=erreur
  */
 int connexion(char *serveur, char *service) {
     //declaration de types
     struct sockaddr_in *p_sockaddr_locale;
     struct sockaddr_in *p_sockaddr_distante;
-
+    int res;
 
     // création d'une socket,
     // la structure est crée et associée à un file descriptor
@@ -60,7 +60,8 @@ int connexion(char *serveur, char *service) {
     masocket = h_socket(AF_INET, SOCK_STREAM);
     if (masocket < 0) {
         printf("Echec création de socket");
-        return 1;
+        res = -1;
+        return res;
     } else {
         printf("Socket créée avec succès. id= %d\n", masocket);
     }
@@ -72,8 +73,11 @@ int connexion(char *serveur, char *service) {
     h_bind(masocket, p_sockaddr_locale);
     // Remplissage d'une structure sockaddr_in pour ip/port du serveur distant
     adr_socket(service, serveur, SOCK_STREAM, &p_sockaddr_distante);
-    h_connect(masocket, p_sockaddr_distante);
-    return 0;
+    res = h_connect(masocket, p_sockaddr_distante);
+    if (res < 0) {
+        printf("Echec lors de la connexion. Vérifiez que le serveur est démarré sur la machine %s.\n", serveur);
+    }
+    return res;
 }
 
 /**
@@ -459,8 +463,9 @@ void client_appli(char *serveur, char *service)
 /* procedure correspondant au traitement du client de votre application */ {
     // etablissement de la connexion
     int connecte = connexion(serveur, service);
-    if (connecte != 0) {
-        printf("Désolé, Impossible de jouer. Problème lors de l'établissement de la connexion. \n");
+    if (connecte < 0) {
+        printf("Désolé, Impossible de jouer.\n");
+        return;
         
     } else {
         int level;

@@ -203,7 +203,7 @@ void h_bind(int num_soc, struct sockaddr_in *p_adr_socket) {
 /*	     	aucune ( le rapport d'execution est envoye sur la console )	*/
 
 /********************************************************************************/
-void h_connect(int num_soc, struct sockaddr_in *p_adr_serv) {
+int h_connect(int num_soc, struct sockaddr_in *p_adr_serv) {
 
     int res; /* Entier resultat de l'operation 	*/
     char str[INET_ADDRSTRLEN];
@@ -224,8 +224,10 @@ void h_connect(int num_soc, struct sockaddr_in *p_adr_serv) {
     if (res < 0) {
         inet_ntop(AF_INET, &(p_adr_serv->sin_addr), str, INET_ADDRSTRLEN);
         printf("\nERREUR 'h_connect' : connexion serveur %s impossible\n"
-                , str);
+                , str);    
     }
+    
+return res;
 
 #ifdef DEBUG
     printf("%sH_CONNECT (fin) -------------------\n", aff_debug);

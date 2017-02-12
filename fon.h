@@ -49,7 +49,7 @@ void h_bind ( int num_soc, struct sockaddr_in *p_adr_socket );
 /*			    +===================+				*/
 /*==========================| 	H_CONNECT	|===============================*/
 /*			    +===================+				*/
-void h_connect( int num_soc, struct sockaddr_in *p_adr_serv );
+int h_connect( int num_soc, struct sockaddr_in *p_adr_serv );
 
 /*			    +===================+				*/
 /*==========================|  H_LISTEN  	|===============================*/
