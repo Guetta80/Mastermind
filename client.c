@@ -27,7 +27,6 @@
 
 int masocket;
 
-
 void client_appli(char *serveur, char *service);
 void faireProposition(int T[], unsigned int niv, int optCouleur);
 int couleurVersInt(char *coul);
@@ -37,11 +36,11 @@ void convTabIntToChar(int tabProposition[], char tabPropositionConverted[], int 
 void afficheProposition(int T[], unsigned int l, int optCouleur);
 void afficheIndicateurs(int tabIndic[], int level, int optCouleur);
 void afficheLegendeCouleur(int optCouleur);
-
+void envoieTCP(char data[], int nbData);
 
 /**
  * Creation d'une connexion
- * @param serveur : 
+ * @param serveur : nom ou IP du serveur
  * @param service : le port utilisé
  * @return : code d'erreur: <0=erreur
  */
@@ -92,52 +91,53 @@ void afficheProposition(int T[], unsigned int l, int optCouleur) {
         for (i = 0; i < l; i++) {
             printf("\x1B[48;5;%dm  ", EntierVersCouleur(T[i]));
             printf("\x1B[0m ");
-            //         	printf(" %d ", T[i]);
         };
         printf("]");
     }
-
-
 }
 
-void afficheLegendeCouleur(int optCouleur){
-    if (optCouleur ==0) {
+/**
+ * Affiche la légende des couleurs suivant le mode couleur
+ * @param optCouleur: 1e mode couleur : 1 =avec couleur
+ */
+void afficheLegendeCouleur(int optCouleur) {
+    if (optCouleur == 0) {
         printf("Couleurs possibles : ");
         printf("Rouge,  Jaune, Vert, Bleu, Orange, Blanc, Violet, Fushia\n");
     } else {
         // jeu avec couleur
         printf("Numéros des couleurs possibles : \n");
 
-    // Association des couleurs aux numéros
-    printf("\x1B[48;5;%dm  ", 9);
-    printf("\x1B[0m ");
-    printf("= 0 (Rouge) ");
-    printf("\x1B[48;5;%dm  ", 11);
-    printf("\x1B[0m ");
-    printf("= 1 (Jaune) ");
-    printf("\x1B[48;5;%dm  ", 10);
-    printf("\x1B[0m ");
-    printf("= 2 (Vert) ");
-    printf("\x1B[48;5;%dm  ", 12);
-    printf("\x1B[0m ");
-    printf("= 3 (Bleu) ");
-    printf("\x1B[48;5;%dm  ", 16 + (2 * 6) + (5 * 36));
-    printf("\x1B[0m ");
-    printf("= 4 (Orange) ");
-    printf("\x1B[48;5;%dm  ", 255);
-    printf("\x1B[0m ");
-    printf("= 5 (Blanc) ");
-    printf("\x1B[48;5;%dm  ", 16 + (3 * 36) + 5);
-    printf("\x1B[0m ");
-    printf("= 6 (Violet) ");
-    printf("\x1B[48;5;%dm  ", 16 + (5 * 36) + 5);
-    printf("\x1B[0m ");
-    printf("= 7 (Fushia)\n\n");
+        // Association des couleurs aux numéros
+        printf("\x1B[48;5;%dm  ", 9);
+        printf("\x1B[0m ");
+        printf("= 0 (Rouge) ");
+        printf("\x1B[48;5;%dm  ", 11);
+        printf("\x1B[0m ");
+        printf("= 1 (Jaune) ");
+        printf("\x1B[48;5;%dm  ", 10);
+        printf("\x1B[0m ");
+        printf("= 2 (Vert) ");
+        printf("\x1B[48;5;%dm  ", 12);
+        printf("\x1B[0m ");
+        printf("= 3 (Bleu) ");
+        printf("\x1B[48;5;%dm  ", 16 + (2 * 6) + (5 * 36));
+        printf("\x1B[0m ");
+        printf("= 4 (Orange) ");
+        printf("\x1B[48;5;%dm  ", 255);
+        printf("\x1B[0m ");
+        printf("= 5 (Blanc) ");
+        printf("\x1B[48;5;%dm  ", 16 + (3 * 36) + 5);
+        printf("\x1B[0m ");
+        printf("= 6 (Violet) ");
+        printf("\x1B[48;5;%dm  ", 16 + (5 * 36) + 5);
+        printf("\x1B[0m ");
+        printf("= 7 (Fushia)\n\n");
     }
 }
 
 /**
- * Affiche un tablau d'indicaeur en fonction de l'option couleur
+ * Affiche un tablau d'indicateurs en fonction de l'option couleur
  * @param tabIndic : le tableua d'indicateurs
  * @param level : taille du tableau
  * @param optCouleur : option couleur (1=oui)
@@ -154,7 +154,6 @@ void afficheIndicateurs(int tabIndic[], int level, int optCouleur) {
             printf(" %d ", tabIndic[i]);
         };
         printf("] \n");
-
         printf("2 = bonne place, 1 = existe mais mal place, 0 = n'existe pas\n");
     } else {
         for (i = 0; i < level; i++) {
@@ -176,23 +175,7 @@ void afficheIndicateurs(int tabIndic[], int level, int optCouleur) {
         printf("\x1B[0m ");
         printf("n'existe pas\n");
     }
-
 }
-
-/* affiche le tableau contenant la combinaison de couleur a trouver.
- * parametre T: un tableau contenant le code à trouver.
- * parametre l: le nombre de couleurs à trouver
- */
-/*void affichetabInt(int T[], unsigned int l) {*/
-    /* affiche les l premiers elements du tableau T */
-
-/*    unsigned int i;
-    printf("[");
-    for (i = 0; i < l; i++) {
-        printf(" %d ", T[i]);
-    };
-    printf("]\n");
-}*/
 
 int main(int argc, char *argv[]) {
 
@@ -227,7 +210,10 @@ int main(int argc, char *argv[]) {
     client_appli(serveur, service);
 }
 
-int choixNiveauJeu(int *level) {
+/**
+ * @param Demande a l'utilisateur de choisir le niveau de jeu et envoie ce parametre au serveur.
+ */
+void choixNiveauJeu(int *level) {
     // choix du niveau de jeu
     char chaine[1];
     printf("Veuillez choisir le niveau de jeu (entre 1 et 8) : ");
@@ -240,7 +226,12 @@ int choixNiveauJeu(int *level) {
     }
 }
 
-int envoieTCP(char data[], int nbData) {
+/**
+ * Envoie un message au client
+ * @param data : tableau de donneés
+ * @param nbData : taille du tableau
+ */
+void envoieTCP(char data[], int nbData) {
 #ifdef DEBUG
     printf("ecriture de %d octets dans le buffer d'emission.\n", nbData);
 #endif
@@ -270,20 +261,16 @@ void faireProposition(int T[], unsigned int niv, int optCouleur) {
             scanf("%s", Boule);
             T[i] = couleurVersInt(Boule);
         }
-
     } else {
         // jeu avec couleur
         int boule = 0;
-
         unsigned int i;
         for (i = 0; i < niv; i++) {
-
             printf("Entrer un numéro correspondant à une couleur (rang %d) : \n", i + 1);
             scanf("%d", &boule);
             T[i] = boule;
             printf("\x1B[48;5;%dm  ", EntierVersCouleur(T[i]));
             printf("\x1B[0m \n");
-
         }
     }
 }
@@ -302,8 +289,6 @@ void attenteIndicateursEtNoEssai(int tabIndicateurs[], int level, int *noEssai) 
         tabIndicateurs[i] = donneeRecue[i] - '0';
     }
     *noEssai = ((int) (donneeRecue[level] - '0'))*10 + (int) (donneeRecue[level + 1] - '0');
-
-
 }
 
 /**
@@ -314,8 +299,6 @@ void attenteIndicateursEtNoEssai(int tabIndicateurs[], int level, int *noEssai) 
  * @param nboctet : nb d'octets lus
  */
 void lireBufferTCP(int socket_connecte, char donneeRecue[], int nboctet) {
-    // char buf_reception[1];
-    //int res;
 #ifdef DEBUG
     printf("lecture de %d octets dans le buffer de reception.\n", nboctet);
 #endif 
@@ -409,7 +392,6 @@ int EntierVersCouleur(int c) {
  * @return un code couleur
  */
 int EntierVersIndicateur(int c) {
-
     switch (c) {
         case 0:
             return 0;
@@ -436,9 +418,14 @@ void convTabIntToChar(int tabProposition[], char tabPropositionConverted[], int 
     for (i = 0; i < level; i++) {
         tabPropositionConverted[i] = tabProposition[i] + '0';
     }
-
 }
 
+/**
+ * Determine si une partie est gagnée
+ * @param tab : tableau des indicateurs
+ * @param level : taille du tableau
+ * @return 1 = gagné, 0=perdu
+ */
 int estGagne(int tab[], int level) {
     int i = 0;
     while (i < level && tab[i] == 2) {
@@ -447,20 +434,20 @@ int estGagne(int tab[], int level) {
     return i == level;
 }
 
-/*****************************************************************************/
-void client_appli(char *serveur, char *service)
-
-/* procedure correspondant au traitement du client de votre application */ {
+/**
+ * Moteur du jeu
+ * @param serveur : nom ou ip du serveur
+ * @param service: port du serveur distant à utiliser
+ */
+void client_appli(char *serveur, char *service) {
     // etablissement de la connexion
     int connecte = connexion(serveur, service);
     if (connecte < 0) {
         printf("Désolé, Impossible de jouer.\n");
         return;
-        
     } else {
         int level;
         choixNiveauJeu(&level);
-
 
         // choix de la couleur
         int optCouleur = 0;
@@ -474,16 +461,15 @@ void client_appli(char *serveur, char *service)
         char tabPropositionConverted[level];
         int tabIndic[level];
         int noEssai;
-        
+
         afficheLegendeCouleur(optCouleur);
-        
 
         while (boucle == 1) {
             // Le joueur fait une proposition
             faireProposition(tabProposition, level, optCouleur);
             convTabIntToChar(tabProposition, tabPropositionConverted, level);
             envoieTCP(tabPropositionConverted, level);
-            //envoieProposition(tabProposition, level);
+
             printf("Proposition du joueur : ");
             afficheProposition(tabProposition, level, optCouleur);
 
@@ -499,7 +485,6 @@ void client_appli(char *serveur, char *service)
             if (noEssai == 15) {
                 printf("Vous avez perdu !\n");
                 boucle = 0;
-
             }
         }
         // sortie du jeu
@@ -507,4 +492,3 @@ void client_appli(char *serveur, char *service)
         h_close(masocket);
     }
 }
-
