@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="184.52292mm"
+   height="207.64912mm"
+   viewBox="0 0 653.82136 735.76461"
+   id="svg4639"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="fermeture.svg"
+   inkscape:export-filename="/home/max/Master_CCI/Reseau/TP/mastermind/mastermind_git/images/fermeture.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4641" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="343.46369"
+     inkscape:cy="405.41397"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="752"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     fit-margin-top="5"
+     fit-margin-left="5"
+     fit-margin-right="5"
+     fit-margin-bottom="5" />
+  <metadata
+     id="metadata4644">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-152.78706,-19.286463)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:30px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="238.20306"
+       y="59.268623"
+       id="text5187"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5189"
+         x="238.20306"
+         y="59.268623">SERVEUR</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:30px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="610.50476"
+       y="59.268623"
+       id="text5191"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5193"
+         x="610.50476"
+         y="59.268623">CLIENT</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:6.96226358;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:6.96226292, 41.77357753;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 486.14224,45.581643 c 0,665.527417 0,665.527417 0,665.527417"
+       id="path5288"
+       inkscape:connector-curvature="0" />
+    <g
+       id="g4299"
+       transform="translate(1.5949707,10)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text5195-2"
+         y="304.7955"
+         x="673.92218"
+         style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan5461"
+           style="text-align:center;text-anchor:middle"
+           y="304.7955"
+           x="673.92218"
+           sodipodi:role="line">Attente ACK</tspan></text>
+      <ellipse
+         ry="52.022858"
+         rx="112.12693"
+         cy="298.42526"
+         cx="674.16998"
+         id="path5264-4"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <g
+       id="g4293">
+      <text
+         sodipodi:linespacing="125%"
+         id="text5195-4"
+         y="150.96803"
+         x="675.69659"
+         style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="text-align:center;text-anchor:middle"
+           id="tspan5199-0"
+           y="150.96803"
+           x="678.48224"
+           sodipodi:role="line">Connexion </tspan><tspan
+           id="tspan4245"
+           style="text-align:center;text-anchor:middle"
+           y="172.84303"
+           x="675.69659"
+           sodipodi:role="line">Etablie</tspan></text>
+      <ellipse
+         ry="52.022858"
+         rx="112.12693"
+         cy="157.07765"
+         cx="675.76495"
+         id="path5264-7"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 675.76495,408.87473 c 0,-47.47717 0,-47.47717 0,-47.47717"
+       id="path5465"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 675.76495,256.66402 c 0,-47.47717 0,-47.47717 0,-47.47717"
+       id="path5465-8"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="688.57141"
+       y="234.3622"
+       id="text5497"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="688.57141"
+         y="234.3622"
+         id="tspan5501">Close : FIN</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="689.41736"
+       y="391.50507"
+       id="text5503"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5505"
+         x="689.41736"
+         y="391.50507">ACK / -</tspan></text>
+    <g
+       id="g4282"
+       transform="translate(-494.40143,68.873119)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text5195-2-3"
+         y="398.0437"
+         x="1170.9568"
+         style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan5461-6"
+           style="text-align:center;text-anchor:middle"
+           y="398.0437"
+           x="1170.9568"
+           sodipodi:role="line">Attente FIN</tspan></text>
+      <ellipse
+         ry="52.022858"
+         rx="112.12693"
+         cy="391.78882"
+         cx="1170.1664"
+         id="path5264-4-7"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <g
+       id="g4287"
+       transform="translate(-490.89056,-58.345186)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text5195-2-5"
+         y="666.74426"
+         x="1166.9161"
+         style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan5461-3"
+           style="text-align:center;text-anchor:middle"
+           y="666.74426"
+           x="1166.9161"
+           sodipodi:role="line">Connexion</tspan><tspan
+           id="tspan4280"
+           style="text-align:center;text-anchor:middle"
+           y="688.61926"
+           x="1166.9161"
+           sodipodi:role="line">fermée</tspan></text>
+      <ellipse
+         ry="52.022858"
+         rx="112.12693"
+         cy="671.15771"
+         cx="1166.6555"
+         id="path5264-4-5"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 675.76495,560.84992 c 0,-47.47717 0,-47.47717 0,-47.47717"
+       id="path5465-8-6"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="687.83655"
+       y="542.7937"
+       id="text5503-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5505-9"
+         x="687.83655"
+         y="542.7937">FIN / ACK</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="283.38272"
+       y="386.29468"
+       id="text5195-2-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="283.38272"
+         y="386.29468"
+         style="text-align:center;text-anchor:middle"
+         id="tspan5461-7">Attente Close</tspan></text>
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5264-4-0"
+       cx="283.63052"
+       cy="379.92444"
+       rx="112.12693"
+       ry="52.022858" />
+    <g
+       transform="translate(-392.13443,71.499162)"
+       id="g4293-9">
+      <text
+         sodipodi:linespacing="125%"
+         id="text5195-4-3"
+         y="150.96803"
+         x="675.69659"
+         style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="text-align:center;text-anchor:middle"
+           id="tspan5199-0-6"
+           y="150.96803"
+           x="678.48224"
+           sodipodi:role="line">Connexion </tspan><tspan
+           id="tspan4245-0"
+           style="text-align:center;text-anchor:middle"
+           y="172.84303"
+           x="675.69659"
+           sodipodi:role="line">Etablie</tspan></text>
+      <ellipse
+         ry="52.022858"
+         rx="112.12693"
+         cy="157.07765"
+         cx="675.76495"
+         id="path5264-7-6"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 283.63052,480.37389 c 0,-47.47716 0,-47.47716 0,-47.47716"
+       id="path5465-2"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 283.63052,328.16319 c 0,-47.47717 0,-47.47717 0,-47.47717"
+       id="path5465-8-61"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="296.43695"
+       y="305.86136"
+       id="text5497-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="296.43695"
+         y="305.86136"
+         id="tspan5501-7">FIN / ACK</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="297.17181"
+       y="463.00421"
+       id="text5503-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5505-2"
+         x="297.17181"
+         y="463.00421">Close / FIN</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="284.42096"
+       y="538.41602"
+       id="text5195-2-3-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="284.42096"
+         y="538.41602"
+         style="text-align:center;text-anchor:middle"
+         id="tspan5461-6-3">Attente FIN</tspan></text>
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5264-4-7-7"
+       cx="283.63055"
+       cy="532.16113"
+       rx="112.12693"
+       ry="52.022858" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="283.89111"
+       y="679.89825"
+       id="text5195-2-5-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="283.89111"
+         y="679.89825"
+         style="text-align:center;text-anchor:middle"
+         id="tspan5461-3-2">Connexion</tspan><tspan
+         sodipodi:role="line"
+         x="283.89111"
+         y="701.77325"
+         style="text-align:center;text-anchor:middle"
+         id="tspan4280-2">fermée</tspan></text>
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5264-4-5-8"
+       cx="283.63049"
+       cy="684.31171"
+       rx="112.12693"
+       ry="52.022858" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 283.63052,632.34908 c 0,-47.47717 0,-47.47717 0,-47.47717"
+       id="path5465-8-6-9"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="298.01776"
+       y="614.29285"
+       id="text5503-2-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5505-9-3"
+         x="298.01776"
+         y="614.29285">ACK</tspan></text>
+  </g>
+</svg>

@@ -10,8 +10,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="271.93488mm"
-   height="189.22687mm"
-   viewBox="0 0 963.54877 670.4889"
+   height="171.3791mm"
+   viewBox="0 0 963.54877 607.24879"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -29,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.62162861"
-     inkscape:cx="466.92623"
-     inkscape:cy="357.2475"
+     inkscape:cx="246.74657"
+     inkscape:cy="357.24751"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -59,7 +59,7 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(32.363261,26.188147)">
+     transform="translate(32.363292,-37.051989)">
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.20000005;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:100;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4160"
@@ -175,17 +175,6 @@
          id="tspan4283"
          x="425.11124"
          y="153.68307">6</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="191.84845"
-       y="10.083076"
-       id="text4293"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4295"
-         x="191.84845"
-         y="10.083076">CONTENU DE LA DATA DANS LE PAQUET TCP</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
